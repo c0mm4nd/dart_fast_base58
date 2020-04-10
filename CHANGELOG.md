@@ -1,3 +1,7 @@
+## 0.1.7
+
+- Fix wrong package name in README
+
 ## 0.1.6
 
 - Update readme, removing template words from stagehand.
