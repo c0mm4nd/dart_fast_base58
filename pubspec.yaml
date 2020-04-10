@@ -1,0 +1,11 @@
+name: fast_base58
+description: fast_base58 provides fast implementation of base58 encoding, and supports flickr alphabet and Bitcoin/IPFS alphabet.
+version: 0.1.6
+homepage: https://github.com/maoxs2/dart_fast_base58
+
+environment:
+  sdk: '>=2.7.0 <3.0.0'
+
+dev_dependencies:
+  pedantic: ^1.8.0
+  test: ^1.6.0
