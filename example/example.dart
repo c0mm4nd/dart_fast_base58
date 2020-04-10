@@ -1,15 +1,15 @@
-import 'dart:typed_data';
+import 'dart:convert';
 
 import 'package:fast_base58/fast_base58.dart';
 
 void main() {
   // Uint8List(raw bytes) to base58 string
-  var encodedStr = Base58Encode(Uint8List.fromList('bitcoin'.codeUnits));
+  var encodedStr = Base58Encode(utf8.encode('bitcoin'));
   // 4jJc4sAwPs
   print(encodedStr);
 
   // base58 string to Uint8List(raw bytes)
   var decodedRaw = Base58Decode('4jJc4sAwPs');
   // bitcoin
-  print(String.fromCharCodes(decodedRaw));
+  print(utf8.decode(decodedRaw));
 }

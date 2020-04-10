@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+import 'dart:convert';
 
 import 'package:fast_base58/fast_base58.dart';
 import 'package:test/test.dart';
@@ -11,10 +11,13 @@ void main() {
       var vec = {
         'bitcoin': '4jJc4sAwPs',
         'helloworld': '6sBRWyteSSzHrs',
+        '比特幣': '3wJp7rKdW1tEv',
+        '你好世界': '5KMpie3K6ztGQYmij',
+        'salam dünýä': 'jREXyzsGzQ48Jrqb4Gb'
       };
       vec.forEach((String k, v) {
-        expect(Base58Encode(Uint8List.fromList(k.codeUnits)), v);
-        expect(String.fromCharCodes(Base58Decode(v)), k);
+        expect(Base58Encode(utf8.encode(k)), v);
+        expect(utf8.decode(Base58Decode(v)), k);
       });
     });
   });

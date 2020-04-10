@@ -7,14 +7,15 @@ Base algorithm is copied from https://github.com/trezor/trezor-crypto/blob/maste
 A simple usage example:
 
 ```dart
+import 'dart:convert'; // for utf8
 import 'package:fast_base58/fast_base58.dart';
 
 main() {
-  var encodedStr = Base58Encode(Uint8List.fromList('bitcoin'.codeUnits)); // Uint8List(raw bytes) to base58 string
+  var encodedStr = Base58Encode(utf8.encode('bitcoin'.codeUnits)); // Uint8List(raw bytes) to base58 string
   print(encodedStr); // 4jJc4sAwPs
 
   var decodedRaw = Base58Decode('4jJc4sAwPs'); // base58 string to Uint8List(raw bytes)
-  print(String.fromCharCodes(decodedRaw)); // bitcoin
+  print(utf8.decode(decodedRaw)); // bitcoin
 }
 ```
 

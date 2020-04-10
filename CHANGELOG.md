@@ -1,3 +1,7 @@
+## 0.1.8
+
+- Add more test vec, and use uft8 in example.
+
 ## 0.1.7
 
 - Fix wrong package name in README
