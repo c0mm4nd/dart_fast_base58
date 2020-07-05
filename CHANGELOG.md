@@ -1,3 +1,10 @@
+## 0.1.9
+
+- fix bug: The method '_bitAndFromSmi' was called on null
+- get rig of Uint8List, use List<int>
+- boost and simplify decoding and encoding
+- better handling of custom alphabets
+
 ## 0.1.8
 
 - Add more test vec, and use uft8 in example.

@@ -21,4 +21,9 @@ void main() {
       });
     });
   });
+  group('new test', () {
+    test('First Test', () {
+      Base58Decode('AYBxTPyyPvAXxKGBH2mZSyKDwCFVwM1zD4JYJZaVF4SK'); //dont panic
+    });
+  });
 }

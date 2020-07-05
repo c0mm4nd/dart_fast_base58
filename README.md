@@ -2,6 +2,8 @@
 
 Base algorithm is copied from https://github.com/trezor/trezor-crypto/blob/master/base58.c
 
+And updating optimization from https://github.com/mr-tron/base58
+
 ## Usage
 
 A simple usage example:
