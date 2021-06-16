@@ -1,3 +1,7 @@
+## 0.2.0
+
+- Null safety
+
 ## 0.1.9
 
 - fix bug: The method '_bitAndFromSmi' was called on null

@@ -5,8 +5,8 @@ class Base58Exception {
 
 // Alphabet is a a b58 alphabet.
 class Alphabet {
-  List<int> decode; // = List(128);
-  List<int> encode; // 58
+  late List<int> decode; // = List(128);
+  late List<int> encode; // 58
 
   Alphabet(String s) {
     if (s.length != 58) {
