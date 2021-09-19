@@ -1,3 +1,8 @@
+## 0.2.1
+
+- fix bug: [Incorrect Decoding when running Dart in Browser Environment](https://github.com/C0MM4ND/dart_fast_base58/issues/2)
+- provide web example
+
 ## 0.2.0
 
 - Null safety
