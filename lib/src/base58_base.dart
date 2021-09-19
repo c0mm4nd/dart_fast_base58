@@ -1,3 +1,5 @@
+var support64 = (0xFFFFFFFF + 1).toUnsigned(64) != 0;
+
 class Base58Exception {
   String cause;
   Base58Exception(this.cause);
@@ -22,7 +24,7 @@ class Alphabet {
       if (decode[b] == -1) {
         distinct++;
       }
-      decode[b] = i.toSigned(8);
+      decode[b] = i & 0xff;
     });
 
     if (distinct != 58) {
@@ -87,8 +89,8 @@ String FastBase58EncodingAlphabet(List<int> bin, Alphabet alphabet) {
   bin.forEach((b) {
     i = size - 1;
     for (var carry = b; i > high || carry != 0; i--) {
-      carry = (carry + 256 * (out[i])).toUnsigned(32);
-      out[i] = (carry % 58).toUnsigned(8);
+      carry = (carry + 256 * (out[i])) & 0xffffffff;
+      out[i] = carry % 58;
       carry = carry ~/ 58;
     }
     high = i;
@@ -122,12 +124,11 @@ List<int> FastBase58DecodingAlphabet(String str, Alphabet alphabet) {
     zcount++;
   }
 
-  var t = 0; // u64
   var c = 0; // u64
-
+  var t = 0;
   // the 32bit algo stretches the result up to 2 times
   var binu = List<int>.filled(2 * ((b58sz * 406 ~/ 555) + 1), 0); // list<byte>
-  var outi = List<int>.filled((b58sz + 3) ~/ 4, 0); // list<uint32>
+  var outi = List<int>.filled((b58sz + 3) >> 2, 0); // list<uint32>
 
   str.runes.forEach((int r) {
     if (r > 127) {
@@ -140,24 +141,31 @@ List<int> FastBase58DecodingAlphabet(String str, Alphabet alphabet) {
     c = alphabet.decode[r];
 
     for (var j = outi.length - 1; j >= 0; j--) {
-      t = (outi[j] * 58 + c).toUnsigned(64);
-      c = (t >> 32).toUnsigned(64);
-      outi[j] = (t & 0xffffffff).toUnsigned(32);
+      // Add if cond to avoid overflow
+      if (support64) {
+        t = outi[j] * 58 + c;
+        c = t >> 32;
+        outi[j] = t & 0xffffffff;
+      } else {
+        t = outi[j] * 58 + c;
+        c = (outi[j] * 58 + c) ~/ 0xffffffff;
+        outi[j] = t & 0xffffffff;
+      }
     }
   });
 
-  var mask = ((b58sz % 4) * 8).toUnsigned(32);
+  var mask = ((b58sz % 4) * 8) & 0xffffffff;
   if (mask == 0) {
     mask = 32;
   }
-  mask = (mask - 8).toUnsigned(32);
+  mask = (mask - 8) & 0xffffffff;
 
   var outLen = 0;
   for (var j = 0; j < outi.length; j++) {
     for (; mask < 32;) {
       // loop relies on uint overflow
-      binu[outLen] = (outi[j] >> mask).toUnsigned(8);
-      mask = (mask - 8).toUnsigned(32);
+      binu[outLen] = (outi[j] >> mask) & 0xff;
+      mask = (mask - 8) & 0xffffffff;
       outLen++;
     }
     mask = 24;
